@@ -4,14 +4,34 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>EAMIN</title>
+    <title>MD EAMIN</title>
     <link rel="icon" href="favicon.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link href="https://googleapis.com" rel="stylesheet">
-
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet" />
     <style>
+        :root {
+            color-scheme: dark;
+            --bg: #0f172a;
+            --text: #e5e7eb;
+            --muted: #9aa3b2;
+            --border: rgba(148, 163, 184, 0.25);
+            --accent: #93c5fd;
+        }
+
+        :root[data-theme="light"] {
+            color-scheme: light;
+            --bg: #f8fafc;
+            --text: #0f172a;
+            --muted: #475569;
+            --border: rgba(15, 23, 42, 0.18);
+            --accent: #2563eb;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
         html,
         body {
             height: 100%;
@@ -19,19 +39,425 @@
         }
 
         body {
+            font-family: "Roboto", sans-serif;
+            color: var(--text);
+            font-size: 17px;
+            background: var(--bg);
+            min-height: 100vh;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .page {
+            max-width: 1040px;
+            margin: 0 auto;
+            padding: 64px 24px 80px;
+            display: grid;
+            grid-template-columns: minmax(240px, 320px) minmax(0, 1fr);
+            gap: 48px;
+        }
+
+        .sidebar {
+            position: sticky;
+            top: 32px;
+            align-self: start;
+        }
+
+        .name {
+            font-size: 42px;
+            font-weight: 700;
+            letter-spacing: 0.01em;
+            margin: 0 0 8px;
+        }
+
+        .title {
+            font-size: 17px;
+            color: var(--muted);
+            margin: 0 0 18px;
+        }
+
+        .tagline {
+            font-size: 19px;
+            color: var(--text);
+            margin: 0 0 28px;
+            line-height: 1.6;
+        }
+
+        .nav {
+            display: grid;
+            gap: 12px;
+            margin: 40px 0 32px;
+        }
+
+        .nav a {
+            text-transform: none;
+            font-size: 14px;
+            letter-spacing: 0.06em;
+            color: var(--text);
+            display: inline-flex;
+            align-items: center;
+            gap: 14px;
+            transition: color 0.2s ease;
+        }
+
+        .nav a::before {
+            content: "";
+            display: inline-block;
+            width: 18px;
+            height: 1px;
+            background: var(--border);
+            transition: width 0.2s ease, background 0.2s ease;
+        }
+
+        .nav a:hover {
+            color: var(--text);
+        }
+
+        .nav a:hover::before {
+            width: 26px;
+            background: var(--accent);
+        }
+
+        .socials {
             display: flex;
+            gap: 14px;
+            margin-top: 36px;
+        }
+
+        .socials a {
+            border: none;
+            padding: 0;
+            font-size: 14px;
+            color: var(--muted);
+            transition: color 0.2s ease;
+        }
+
+        .socials a:hover {
+            color: var(--text);
+        }
+
+        .theme-toggle {
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: transparent;
+            color: var(--text);
+            width: 40px;
+            height: 40px;
+            padding: 0;
+            font-size: 14px;
+            cursor: pointer;
+            transition: border 0.2s ease, color 0.2s ease;
+            display: inline-flex;
             align-items: center;
             justify-content: center;
-           font-family: "Roboto", Arial, sans-serif;
-            font-size: 52px;
-            font-weight: 700;
-            letter-spacing: 0.1em;
+        }
+
+        .theme-toggle:hover {
+            border-color: var(--accent);
+        }
+
+        .theme-toggle:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
+        }
+
+        .theme-toggle--floating {
+            position: fixed;
+            top: 24px;
+            right: 24px;
+            z-index: 10;
+        }
+
+        .theme-toggle svg {
+            width: 18px;
+            height: 18px;
+            stroke: currentColor;
+            stroke-width: 1.6;
+            fill: none;
+        }
+
+        :root[data-theme="dark"] .theme-toggle .icon-sun,
+        :root[data-theme="light"] .theme-toggle .icon-moon {
+            display: inline;
+        }
+
+        :root[data-theme="dark"] .theme-toggle .icon-moon,
+        :root[data-theme="light"] .theme-toggle .icon-sun {
+            display: none;
+        }
+
+        main {
+            display: grid;
+            gap: 44px;
+        }
+
+        section {
+            background: transparent;
+            border: none;
+            border-radius: 0;
+            padding: 0;
+        }
+
+        section h2 {
+            margin: 0 0 16px;
+            font-size: 19px;
+            letter-spacing: 0.08em;
+            text-transform: none;
+            color: var(--muted);
+        }
+
+        .about p {
+            margin: 0 0 14px;
+            color: var(--text);
+            line-height: 1.7;
+        }
+
+        .about p:last-child {
+            margin-bottom: 0;
+        }
+
+        .projects {
+            display: grid;
+            gap: 20px;
+        }
+
+        .project-card {
+            border: none;
+            border-bottom: 1px solid var(--border);
+            border-radius: 0;
+            padding: 0 0 20px;
+            background: transparent;
+            display: grid;
+            gap: 12px;
+            transition: border 0.2s ease;
+        }
+
+        .project-card:hover {
+            border-color: rgba(122, 184, 255, 0.5);
+        }
+
+        .project-card:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .project-title {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .project-title h3 {
+            margin: 0;
+            font-size: 21px;
+        }
+
+        .project-title a {
+            font-size: 13px;
+            letter-spacing: 0.06em;
+            text-transform: none;
+            color: var(--accent);
+        }
+
+        .project-card p {
+            margin: 0;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        .fade-up {
+            animation: fadeUp 0.8s ease both;
+        }
+
+        .delay-1 {
+            animation-delay: 0.08s;
+        }
+
+        .delay-2 {
+            animation-delay: 0.16s;
+        }
+
+        .delay-3 {
+            animation-delay: 0.24s;
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 900px) {
+            .page {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                position: static;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .page {
+                padding-top: 40px;
+            }
+
+            .name {
+                font-size: 34px;
+            }
+
+            .theme-toggle--floating {
+                top: 16px;
+                right: 16px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .fade-up {
+                animation: none;
+            }
+
+            .project-card,
+            .socials a {
+                transition: none;
+            }
         }
     </style>
 </head>
 
 <body>
-    EAMIN
+    <button class="theme-toggle theme-toggle--floating" type="button" id="themeToggle" aria-pressed="false"
+        aria-label="Switch to light mode" title="Switch to light mode">
+        <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="4"></circle>
+            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path>
+        </svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M21 14.5A8.5 8.5 0 0 1 9.5 3a7 7 0 1 0 11.5 11.5z"></path>
+        </svg>
+    </button>
+    <div class="page">
+        <aside class="sidebar fade-up">
+            <h1 class="name">MD EAMIN</h1>
+            <p class="title">B.Sc. Computer Science student at BRAC University</p>
+            <p class="tagline">
+                Currently pursuing a B.Sc in Computer Science at BRAC University.
+            </p>
+            <nav class="nav">
+                <a href="#about">About</a>
+                <a href="#projects">Projects</a>
+                <a href="#contact">Contact</a>
+            </nav>
+            <div class="socials">
+                <a href="https://github.com/EAMIN-SHANTO" target="_blank" rel="noreferrer">GitHub</a>
+                <a href="https://www.linkedin.com/in/md-eamin-198287198/" target="_blank" rel="noreferrer">LinkedIn</a>
+            </div>
+        </aside>
+
+        <main>
+            <section id="about" class="about fade-up delay-1">
+                <h2>About</h2>
+                <p>
+                    My journey in technology started with curiosity about how things work, which led me to explore
+                    various programming languages and frameworks. I enjoy tackling complex problems and turning ideas
+                    into functional, user-friendly applications.
+                </p>
+                <p>
+                    Currently, I'm expanding my expertise by learning blockchain technology, Web3 development, and
+                    system design principles. I'm passionate about contributing to open-source projects and staying
+                    updated with the latest trends in technology and software architecture.
+                </p>
+            </section>
+
+            <section id="projects" class="fade-up delay-2">
+                <h2>Projects</h2>
+                <div class="projects">
+                    <article class="project-card">
+                        <div class="project-title">
+                            <h3>stuRENT</h3>
+                            <a href="https://github.com/EAMIN-SHANTO/stuRENT" target="_blank" rel="noreferrer">View</a>
+                        </div>
+                        <p>
+                            A comprehensive home renting solution for bachelor students. stuRENT connects students
+                            with verified rentals within a 20-minute walk from their university, ensuring security for
+                            both owners and students through proper documentation and verification.
+                        </p>
+                    </article>
+
+                    <article class="project-card">
+                        <div class="project-title">
+                            <h3>UniTap</h3>
+                            <a href="https://github.com/EAMIN-SHANTO/UniTap" target="_blank" rel="noreferrer">View</a>
+                        </div>
+                        <p>
+                            A hardware-based computer interfacing project extending university ID functionality.
+                            UniTap enables cafe payments, bus fares, real-time seat status monitoring, and live updates
+                            via a modern React web interface.
+                        </p>
+                    </article>
+
+                    <article class="project-card">
+                        <div class="project-title">
+                            <h3>BRACUverse</h3>
+                            <a href="https://github.com/EAMIN-SHANTO/BRACUverse" target="_blank"
+                                rel="noreferrer">View</a>
+                        </div>
+                        <p>
+                            A centralized educational and utility platform for BRAC University students, offering
+                            streamlined access to academic resources, university events, collaboration opportunities,
+                            and personalized utilities.
+                        </p>
+                    </article>
+                </div>
+            </section>
+
+            <section id="contact" class="fade-up delay-3">
+                <h2>Contact</h2>
+                <p class="tagline">
+                    Want to collaborate or chat about ideas? Reach out via GitHub or LinkedIn.
+                </p>
+            </section>
+        </main>
+    </div>
+    <script>
+        const storageKey = "theme";
+        const toggle = document.getElementById("themeToggle");
+
+        const setTheme = (theme) => {
+            document.documentElement.setAttribute("data-theme", theme);
+            toggle.setAttribute("aria-pressed", theme === "dark");
+            const nextLabel = theme === "dark" ? "Switch to light mode" : "Switch to dark mode";
+            toggle.setAttribute("aria-label", nextLabel);
+            toggle.setAttribute("title", nextLabel);
+        };
+
+        const getPreferredTheme = () => {
+            const stored = localStorage.getItem(storageKey);
+            if (stored === "light" || stored === "dark") {
+                return stored;
+            }
+            return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        };
+
+        setTheme(getPreferredTheme());
+
+        toggle.addEventListener("click", () => {
+            const current = document.documentElement.getAttribute("data-theme");
+            const next = current === "dark" ? "light" : "dark";
+            localStorage.setItem(storageKey, next);
+            setTheme(next);
+        });
+    </script>
 </body>
 
 </html>
