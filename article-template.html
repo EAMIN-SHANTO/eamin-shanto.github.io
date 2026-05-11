@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Article Template - MD EAMIN</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet" />
+    <style>
+        :root {
+            color-scheme: dark;
+            --bg: #0b1120;
+            --text: #e2e8f0;
+            --muted: #94a3b8;
+            --border: rgba(148, 163, 184, 0.2);
+            --accent: #60a5fa;
+            --content-width: 980px;
+            --space-1: 6px;
+            --space-2: 10px;
+            --space-3: 16px;
+            --space-4: 24px;
+            --space-5: 32px;
+            --space-6: 48px;
+            --space-7: 64px;
+        }
+
+        :root[data-theme="light"] {
+            color-scheme: light;
+            --bg: #f8fafc;
+            --text: #0f172a;
+            --muted: #475569;
+            --border: rgba(15, 23, 42, 0.18);
+            --accent: #2563eb;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+        }
+
+        body {
+            font-family: "Roboto", sans-serif;
+            color: var(--text);
+            font-size: 16px;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            background: var(--bg);
+            min-height: 100vh;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .theme-toggle {
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: transparent;
+            color: var(--text);
+            width: 40px;
+            height: 40px;
+            padding: 0;
+            cursor: pointer;
+            transition: border 0.2s ease, color 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            position: fixed;
+            top: 24px;
+            right: 24px;
+            z-index: 10;
+        }
+
+        .theme-toggle:hover {
+            border-color: var(--accent);
+        }
+
+        .theme-toggle:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
+        }
+
+        .theme-toggle svg {
+            width: 18px;
+            height: 18px;
+            stroke: currentColor;
+            stroke-width: 1.6;
+            fill: none;
+        }
+
+        :root[data-theme="dark"] .theme-toggle .icon-sun,
+        :root[data-theme="light"] .theme-toggle .icon-moon {
+            display: inline;
+        }
+
+        :root[data-theme="dark"] .theme-toggle .icon-moon,
+        :root[data-theme="light"] .theme-toggle .icon-sun {
+            display: none;
+        }
+
+        .topbar {
+            width: 100%;
+            padding: var(--space-4) var(--space-4) 0;
+        }
+
+        .topbar-inner {
+            max-width: var(--content-width);
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding-right: 52px;
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            font-weight: 600;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav a {
+            color: var(--muted);
+            display: inline-flex;
+            align-items: center;
+            transition: color 0.2s ease;
+        }
+
+        .nav a+a {
+            margin-left: 12px;
+        }
+
+        .nav a+a::before {
+            content: "/";
+            color: var(--border);
+            display: inline-block;
+            margin-right: 12px;
+        }
+
+        .nav a:hover {
+            color: var(--text);
+        }
+
+        body[data-page="home"] .nav a[href="index.html"],
+        body[data-page="archives"] .nav a[href="project-archives.html"],
+        body[data-page="articles"] .nav a[href="articles.html"] {
+            color: var(--text);
+        }
+
+        .page {
+            max-width: var(--content-width);
+            margin: 0 auto;
+            padding: var(--space-6) var(--space-4) var(--space-7);
+        }
+
+        .back-link {
+            font-size: 11px;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--muted);
+            display: inline-block;
+            margin-bottom: var(--space-3);
+        }
+
+        h1 {
+            font-size: 32px;
+            margin: 0 0 var(--space-1);
+        }
+
+        .article-meta {
+            font-size: 11px;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin: 0 0 var(--space-3);
+        }
+
+        .section-lead {
+            margin: 0 0 var(--space-4);
+            color: var(--muted);
+        }
+
+        .article-body {
+            display: grid;
+            gap: var(--space-3);
+        }
+
+        .article-body p {
+            margin: 0;
+        }
+
+        @media (max-width: 600px) {
+            .topbar {
+                padding-top: var(--space-4);
+            }
+
+            .topbar-inner {
+                padding-right: 0;
+            }
+
+            .nav {
+                flex-wrap: wrap;
+                gap: 6px;
+                font-size: 11px;
+                letter-spacing: 0.1em;
+            }
+
+            .nav a+a {
+                margin-left: 8px;
+            }
+
+            .nav a+a::before {
+                margin-right: 8px;
+            }
+
+            .theme-toggle {
+                top: 16px;
+                right: 16px;
+            }
+
+            h1 {
+                font-size: 26px;
+            }
+        }
+    </style>
+</head>
+
+<body data-page="articles">
+    <button class="theme-toggle" type="button" id="themeToggle" aria-pressed="false" aria-label="Switch to light mode"
+        title="Switch to light mode">
+        <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="4"></circle>
+            <path
+                d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41">
+            </path>
+        </svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M21 14.5A8.5 8.5 0 0 1 9.5 3a7 7 0 1 0 11.5 11.5z"></path>
+        </svg>
+    </button>
+    <header class="topbar">
+        <div class="topbar-inner">
+            <nav class="nav" aria-label="Primary">
+                <a href="index.html">Home</a>
+                <a href="project-archives.html">Project Archives</a>
+                <a href="articles.html">Articles</a>
+            </nav>
+        </div>
+    </header>
+    <main class="page">
+        <a class="back-link" href="articles.html">Back to Articles</a>
+        <article>
+            <h1>Article Title</h1>
+            <p class="article-meta">Draft - Month 2026</p>
+            <p class="section-lead">Short summary for the article goes here.</p>
+            <div class="article-body">
+                <p>Paragraph one with the main idea.</p>
+                <p>Paragraph two with supporting details.</p>
+                <p>Paragraph three with next steps or references.</p>
+            </div>
+        </article>
+    </main>
+    <script>
+        const storageKey = "theme";
+        const toggle = document.getElementById("themeToggle");
+
+        const setTheme = (theme) => {
+            document.documentElement.setAttribute("data-theme", theme);
+            toggle.setAttribute("aria-pressed", theme === "dark");
+            const nextLabel = theme === "dark" ? "Switch to light mode" : "Switch to dark mode";
+            toggle.setAttribute("aria-label", nextLabel);
+            toggle.setAttribute("title", nextLabel);
+        };
+
+        const getPreferredTheme = () => {
+            const stored = localStorage.getItem(storageKey);
+            if (stored === "light" || stored === "dark") {
+                return stored;
+            }
+            return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        };
+
+        setTheme(getPreferredTheme());
+
+        toggle.addEventListener("click", () => {
+            const current = document.documentElement.getAttribute("data-theme");
+            const next = current === "dark" ? "light" : "dark";
+            localStorage.setItem(storageKey, next);
+            setTheme(next);
+        });
+    </script>
+</body>
+
+</html>

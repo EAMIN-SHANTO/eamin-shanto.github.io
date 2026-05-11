@@ -8,15 +8,25 @@
     <link rel="icon" href="favicon.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet" />
     <style>
         :root {
             color-scheme: dark;
-            --bg: #0f172a;
-            --text: #e5e7eb;
-            --muted: #9aa3b2;
-            --border: rgba(148, 163, 184, 0.25);
-            --accent: #93c5fd;
+            --bg: #0b1120;
+            --text: #e2e8f0;
+            --muted: #94a3b8;
+            --border: rgba(148, 163, 184, 0.2);
+            --accent: #60a5fa;
+            --content-width: 980px;
+            --space-1: 6px;
+            --space-2: 10px;
+            --space-3: 16px;
+            --space-4: 24px;
+            --space-5: 32px;
+            --space-6: 48px;
+            --space-7: 64px;
         }
 
         :root[data-theme="light"] {
@@ -38,26 +48,44 @@
             margin: 0;
         }
 
+        @import url('https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap');
+
         body {
-            font-family: "Roboto", sans-serif;
+            font-family: "Geist Mono", monospace; /* Updated font and fallback */
             color: var(--text);
-            font-size: 17px;
+            font-size: 16px;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
             background: var(--bg);
             min-height: 100vh;
         }
-
         a {
             color: inherit;
             text-decoration: none;
+            transition: color 0.2s ease;
         }
 
         .page {
-            max-width: 1040px;
+            max-width: var(--content-width);
             margin: 0 auto;
-            padding: 64px 24px 80px;
+            padding: var(--space-7) var(--space-4) calc(var(--space-7) + var(--space-1));
             display: grid;
             grid-template-columns: minmax(240px, 320px) minmax(0, 1fr);
-            gap: 48px;
+            gap: var(--space-6);
+        }
+
+        .topbar {
+            width: 100%;
+            padding: var(--space-4) var(--space-4) 0;
+        }
+
+        .topbar-inner {
+            max-width: var(--content-width);
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding-right: 52px;
         }
 
         .sidebar {
@@ -67,76 +95,78 @@
         }
 
         .name {
-            font-size: 42px;
+            font-size: 40px;
             font-weight: 700;
-            letter-spacing: 0.01em;
-            margin: 0 0 8px;
+            letter-spacing: 0.005em;
+            line-height: 1.1;
+            margin: 0 0 var(--space-1);
         }
 
         .title {
-            font-size: 17px;
+            font-size: 16px;
             color: var(--muted);
-            margin: 0 0 18px;
+            margin: 0 0 var(--space-3);
         }
 
         .tagline {
-            font-size: 19px;
+            font-size: 18px;
             color: var(--text);
-            margin: 0 0 28px;
-            line-height: 1.6;
+            margin: 0 0 var(--space-4);
         }
 
         .nav {
-            display: grid;
-            gap: 12px;
-            margin: 40px 0 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            font-weight: 600;
+            margin: 0;
+            padding: 0;
         }
 
         .nav a {
-            text-transform: none;
-            font-size: 14px;
-            letter-spacing: 0.06em;
-            color: var(--text);
+            color: var(--muted);
             display: inline-flex;
             align-items: center;
-            gap: 14px;
+            position: relative;
+            padding-bottom: 4px;
             transition: color 0.2s ease;
         }
 
-        .nav a::before {
-            content: "";
+        .nav a+a {
+            margin-left: 12px;
+        }
+
+        .nav a+a::before {
+            content: "/";
+            color: var(--border);
             display: inline-block;
-            width: 18px;
-            height: 1px;
-            background: var(--border);
-            transition: width 0.2s ease, background 0.2s ease;
+            margin-right: 12px;
         }
 
         .nav a:hover {
             color: var(--text);
         }
 
-        .nav a:hover::before {
-            width: 26px;
-            background: var(--accent);
-        }
-
-        .socials {
-            display: flex;
-            gap: 14px;
-            margin-top: 36px;
-        }
-
-        .socials a {
-            border: none;
-            padding: 0;
-            font-size: 14px;
-            color: var(--muted);
-            transition: color 0.2s ease;
-        }
-
-        .socials a:hover {
+        body[data-page="home"] .nav a[href="#about"],
+        body[data-page="archives"] .nav a[href="project-archives.html"],
+        body[data-page="articles"] .nav a[href="articles.html"] {
             color: var(--text);
+        }
+
+        body[data-page="home"] .nav a[href="#about"]::after,
+        body[data-page="archives"] .nav a[href="project-archives.html"]::after,
+        body[data-page="articles"] .nav a[href="articles.html"]::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: -6px;
+            height: 1px;
+            background: var(--text);
+            opacity: 0.45;
         }
 
         .theme-toggle {
@@ -191,7 +221,7 @@
 
         main {
             display: grid;
-            gap: 44px;
+            gap: var(--space-6);
         }
 
         section {
@@ -202,17 +232,16 @@
         }
 
         section h2 {
-            margin: 0 0 16px;
-            font-size: 19px;
-            letter-spacing: 0.08em;
-            text-transform: none;
+            margin: 0 0 var(--space-2);
+            font-size: 15px;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
             color: var(--muted);
         }
 
         .about p {
-            margin: 0 0 14px;
+            margin: 0 0 var(--space-2);
             color: var(--text);
-            line-height: 1.7;
         }
 
         .about p:last-child {
@@ -221,17 +250,17 @@
 
         .projects {
             display: grid;
-            gap: 20px;
+            gap: var(--space-4);
         }
 
         .project-card {
             border: none;
             border-bottom: 1px solid var(--border);
             border-radius: 0;
-            padding: 0 0 20px;
+            padding: 0 0 var(--space-4);
             background: transparent;
             display: grid;
-            gap: 12px;
+            gap: var(--space-2);
             transition: border 0.2s ease;
         }
 
@@ -253,20 +282,86 @@
 
         .project-title h3 {
             margin: 0;
-            font-size: 21px;
+            font-size: 20px;
+            font-weight: 600;
         }
 
         .project-title a {
-            font-size: 13px;
-            letter-spacing: 0.06em;
-            text-transform: none;
+            font-size: 12px;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
             color: var(--accent);
         }
 
         .project-card p {
             margin: 0;
             color: var(--muted);
-            line-height: 1.6;
+        }
+
+        .section-lead {
+            margin: 0 0 var(--space-3);
+            color: var(--muted);
+        }
+
+        main>section+section {
+            border-top: 1px solid var(--border);
+            padding-top: var(--space-5);
+        }
+
+        .footer {
+            border-top: 1px solid var(--border);
+            margin-top: var(--space-7);
+            padding: var(--space-5) var(--space-4) var(--space-6);
+        }
+
+        .footer-inner {
+            max-width: var(--content-width);
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: minmax(120px, 1fr) minmax(240px, 2fr) minmax(160px, 1fr);
+            gap: var(--space-5);
+            align-items: start;
+        }
+
+        .footer-title {
+            font-size: 13px;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+
+        .footer-links {
+            display: grid;
+            gap: var(--space-2);
+        }
+
+        .footer-link {
+            color: var(--text);
+            font-size: 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .footer-link::after {
+            content: "↗";
+            font-size: 9px;
+            line-height: 1;
+            color: var(--muted);
+        }
+
+        .footer-meta {
+            display: grid;
+            gap: var(--space-2);
+            text-align: right;
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .footer-meta-label {
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            font-size: 11px;
         }
 
         .fade-up {
@@ -308,17 +403,53 @@
         }
 
         @media (max-width: 600px) {
+            .topbar {
+                padding-top: var(--space-4);
+            }
+
+            .topbar-inner {
+                padding-right: 0;
+            }
+
+            .nav {
+                flex-wrap: wrap;
+                gap: 6px;
+                font-size: 11px;
+                letter-spacing: 0.1em;
+            }
+
+            .nav a+a {
+                margin-left: 8px;
+            }
+
+            .nav a+a::before {
+                margin-right: 8px;
+            }
+
             .page {
-                padding-top: 40px;
+                padding-top: var(--space-6);
             }
 
             .name {
-                font-size: 34px;
+                font-size: 32px;
             }
 
             .theme-toggle--floating {
                 top: 16px;
                 right: 16px;
+            }
+
+            .footer {
+                padding: var(--space-4) var(--space-4) var(--space-6);
+            }
+
+            .footer-inner {
+                grid-template-columns: 1fr;
+                text-align: left;
+            }
+
+            .footer-meta {
+                text-align: left;
             }
         }
 
@@ -327,15 +458,14 @@
                 animation: none;
             }
 
-            .project-card,
-            .socials a {
+            .project-card {
                 transition: none;
             }
         }
     </style>
 </head>
 
-<body>
+<body data-page="home">
     <button class="theme-toggle theme-toggle--floating" type="button" id="themeToggle" aria-pressed="false"
         aria-label="Switch to light mode" title="Switch to light mode">
         <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true">
@@ -348,6 +478,15 @@
             <path d="M21 14.5A8.5 8.5 0 0 1 9.5 3a7 7 0 1 0 11.5 11.5z"></path>
         </svg>
     </button>
+    <header class="topbar">
+        <div class="topbar-inner">
+            <nav class="nav" aria-label="Primary">
+                <a href="#about">About</a>
+                <a href="project-archives.html">Project Archives</a>
+                <a href="articles.html">Articles</a>
+            </nav>
+        </div>
+    </header>
     <div class="page">
         <aside class="sidebar fade-up">
             <h1 class="name">MD EAMIN</h1>
@@ -355,15 +494,6 @@
             <p class="tagline">
                 Currently pursuing a B.Sc in Computer Science at BRAC University.
             </p>
-            <nav class="nav">
-                <a href="#about">About</a>
-                <a href="#projects">Projects</a>
-                <a href="#contact">Contact</a>
-            </nav>
-            <div class="socials">
-                <a href="https://github.com/EAMIN-SHANTO" target="_blank" rel="noreferrer">GitHub</a>
-                <a href="https://www.linkedin.com/in/md-eamin-198287198/" target="_blank" rel="noreferrer">LinkedIn</a>
-            </div>
         </aside>
 
         <main>
@@ -423,14 +553,100 @@
                 </div>
             </section>
 
-            <section id="contact" class="fade-up delay-3">
-                <h2>Contact</h2>
-                <p class="tagline">
-                    Want to collaborate or chat about ideas? Reach out via GitHub or LinkedIn.
+            <section id="project-archives" class="fade-up delay-2">
+                <h2>Project Archives</h2>
+                <p class="section-lead">
+                    A curated list of older experiments and class projects. Visit the archive to explore more.
                 </p>
+                <div class="projects">
+                    <article class="project-card">
+                        <div class="project-title">
+                            <h3>UniBeez</h3>
+                            <a href="project-unibeez.html">Details</a>
+                        </div>
+                        <p>
+                            A digital marketplace empowering student entrepreneurs to sell products year-round with
+                            zero delivery fee within campus.
+                        </p>
+                    </article>
+
+                    <article class="project-card">
+                        <div class="project-title">
+                            <h3>Library Seat Tracker</h3>
+                            <a href="project-archives.html">Open</a>
+                        </div>
+                        <p>Early IoT concept to visualize available study seats in real time.</p>
+                    </article>
+
+                    <article class="project-card">
+                        <div class="project-title">
+                            <h3>Expense Splitter</h3>
+                            <a href="project-archives.html">Open</a>
+                        </div>
+                        <p>Simple web app to split bills, track balances, and export summaries.</p>
+                    </article>
+                </div>
+            </section>
+
+            <section id="articles" class="fade-up delay-2">
+                <h2>Articles</h2>
+                <p class="section-lead">
+                    Short notes and write-ups on projects, learning, and experiments. Full list on the Articles page.
+                </p>
+                <div class="projects">
+                    <article class="project-card">
+                        <div class="project-title">
+                            <h3>Designing a Student-First Rental Platform</h3>
+                            <a href="article-student-rental.html">Read</a>
+                        </div>
+                        <p>Key lessons from building a verified rental workflow for students.</p>
+                    </article>
+
+                    <article class="project-card">
+                        <div class="project-title">
+                            <h3>From RFID to Real-Time Payments</h3>
+                            <a href="article-rfid-payments.html">Read</a>
+                        </div>
+                        <p>How UniTap evolved from a hardware demo into a connected product idea.</p>
+                    </article>
+
+                    <article class="project-card">
+                        <div class="project-title">
+                            <h3>Planning BRACUverse</h3>
+                            <a href="article-bracuverse-planning.html">Read</a>
+                        </div>
+                        <p>Architecture notes on building a unified hub for campus resources.</p>
+                    </article>
+                </div>
             </section>
         </main>
     </div>
+    <footer class="footer" id="contact">
+        <div class="footer-inner">
+            <div class="footer-title">Connect</div>
+            <div class="footer-links">
+                <a class="footer-link" href="https://github.com/EAMIN-SHANTO" target="_blank" rel="noreferrer">GitHub -
+                    github.com/EAMIN-SHANTO</a>
+                <a class="footer-link" href="https://www.linkedin.com/in/md-eamin-198287198/" target="_blank"
+                    rel="noreferrer">LinkedIn - linkedin.com/in/md-eamin-198287198</a>
+                <a class="footer-link" href="mailto:md.eamin0519@gmail.com">Email - md.eamin0519@gmail.com</a>
+            </div>
+            <div class="footer-meta">
+                <div>
+                    <div class="footer-meta-label">Version</div>
+                    <div>v1.0.0</div>
+                </div>
+                <div>
+                    <div class="footer-meta-label">Last updated</div>
+                    <div>May 11, 2026</div>
+                </div>
+                <div>
+                    <div class="footer-meta-label">Commit</div>
+                    <div>initial</div>
+                </div>
+            </div>
+        </div>
+    </footer>
     <script>
         const storageKey = "theme";
         const toggle = document.getElementById("themeToggle");
